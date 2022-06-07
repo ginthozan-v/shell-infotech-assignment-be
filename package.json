@@ -1,0 +1,21 @@
+{
+  "name": "cafe-employee-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ginthozan-v/cafe-employee-backend.git"
+  },
+  "keywords": [],
+  "author": "Ginthozan Varnakulasingam <ginthozanv@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ginthozan-v/cafe-employee-backend/issues"
+  },
+  "homepage": "https://github.com/ginthozan-v/cafe-employee-backend#readme"
+}
