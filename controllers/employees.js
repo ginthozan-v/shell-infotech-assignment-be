@@ -1,9 +1,25 @@
 import Employee from "../models/employee.js";
+import Cafe from "../models/cafe.js";
+import mongoose from "mongoose";
 
 export const getEmployees = async (req, res) => {
   try {
     const employees = await Employee.find();
-    res.status(200).json(employees);
+    const cafes = await Cafe.find();
+    const employeeCafe = [];
+    employees.map(employee => (
+        employeeCafe.push({
+          _id: employee._id,
+          name: employee.name,
+          email: employee.email,
+          phone: employee.phone,
+          gender: employee.gender,
+          days: new Date().getDate() - cafes.find(c => c.employees.find(e => e.employee_id === employee.id)).employees.find(x => x.employee_id === employee.id).startedAt.getDate(),
+          cafe: cafes.find(ca => ca.employees.some(e => e.employee_id === employee.id)).name
+        })
+    ))
+
+    res.status(200).json(employeeCafe);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -19,4 +35,26 @@ export const createEmployee = async (req, res) => {
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
+};
+
+
+export const updateEmployee = async (req, res) => {
+  const { id: _id } = req.params;
+  const employee = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send("No employee with that id");
+
+  const updatedEmployee = await Employee.findByIdAndUpdate(_id, { ...employee, _id }, { new: true });
+
+  res.json(updatedEmployee);
+};
+
+export const deleteEmployee = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No employee with that id");
+
+  await Employee.findByIdAndRemove(id);
+
+  res.json({ message: 'Employee deleted successfully!' });
 };

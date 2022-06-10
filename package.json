@@ -17,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/ginthozan-v/cafe-employee-backend/issues"
   },
-  "homepage": "https://github.com/ginthozan-v/cafe-employee-backend#readme"
+  "homepage": "https://github.com/ginthozan-v/cafe-employee-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.6"
+  }
 }
