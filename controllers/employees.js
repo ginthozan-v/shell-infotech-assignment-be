@@ -6,10 +6,10 @@ import mongoose from "mongoose";
 // The day user assigned to the cafe is the Starting day. 
 function calculateWorkingDays(cafes, employee) {
   const today = new Date().getDate()
-  const cafe = cafes.find(c => c.employees?.find(e => e.employee_id === employee.id));
+  const cafe = cafes.find(c => c.employees?.find(e => e.employee_id === employee._id.toString()));
 
   if (cafe) {
-    const date = cafe.employees?.find(x => x.employee_id === employee.id).startedAt.getDate();
+    const date = cafe.employees?.find(x => x.employee_id === employee._id.toString()).startedAt.getDate();
     return today - date;
   } else {
     return 0;
@@ -26,12 +26,13 @@ export const getEmployees = async (req, res) => {
     employees.map(employee => (
       employeeCafe.push({
         _id: employee._id,
+        id: employee.id,
         name: employee.name,
         email: employee.email,
         phone: employee.phone,
         gender: employee.gender,
         days: calculateWorkingDays(cafes, employee),
-        cafe: cafes.find(ca => ca.employees?.some(e => e.employee_id === employee.id))?.name
+        cafe: cafes.find(ca => ca.employees?.some(e => e.employee_id === employee._id.toString()))?.name
       })
     ))
     if (cafe) {
