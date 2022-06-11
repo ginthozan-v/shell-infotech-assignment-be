@@ -17,6 +17,10 @@ app.use(cors());
 app.use('/employees', employeesRoutes);
 app.use('/cafes', cafesRoutes);
 
+app.get('/', (req, res) => {
+  res.send('App is running!');
+});
+
 // mongodb
 const PORT = process.env.PORT;
 
