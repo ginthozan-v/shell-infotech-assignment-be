@@ -49,13 +49,15 @@ export const deleteCafe = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send("No post with that id");
 
+  // remove all the employees assigned to this cafe
   const cafes = await Cafe.findById(id);
   const employees = [];
   cafes.employees.forEach(employee => (
     employees.push(employee.employee_id)
   ));
-
   await Employee.deleteMany({ _id: { $in: employees } })
+
+  // remove the cafe
   await Cafe.findByIdAndRemove(id);
 
   res.json({ message: "Cafe deleted successfully!" });
@@ -69,7 +71,10 @@ export const addEmployee = async (req, res) => {
     return res.status(404).send("No post with that id");
 
   const cafes = await Cafe.find();
+
+  // check if user already exist in another cafe
   const employees = cafes.some((p) => p.employees.some((e) => e.employee_id === employee.employee_id));
+  
   if (employees) {
     return res.status(409).send("User already exist in another cafe");
   } else {

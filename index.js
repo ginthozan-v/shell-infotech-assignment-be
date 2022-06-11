@@ -14,12 +14,13 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-app.use('/employees', employeesRoutes);
-app.use('/cafes', cafesRoutes);
-
 app.get('/', (req, res) => {
   res.send('App is running!');
 });
+
+app.use('/employees', employeesRoutes);
+app.use('/cafes', cafesRoutes);
+
 
 // mongodb
 const PORT = process.env.PORT;

@@ -2,6 +2,8 @@ import Employee from "../models/employee.js";
 import Cafe from "../models/cafe.js";
 import mongoose from "mongoose";
 
+// calculate working days
+// The day user assigned to the cafe is the Starting day. 
 function calculateWorkingDays(cafes, employee) {
   const today = new Date().getDate()
   const cafe = cafes.find(c => c.employees?.find(e => e.employee_id === employee.id));
@@ -70,9 +72,13 @@ export const deleteEmployee = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No employee with that id");
+
+  // remove the employee from cafe if exist
   const cafe = await Cafe.find();
   const cafeEmployee = cafe.find(c => c.employees.find(e => e.employee_id === id));
   if (cafeEmployee) await Cafe.findOneAndUpdate({ _id: cafeEmployee._id }, { $pull: { employees: { employee_id: id } } }, { new: true });
+
+  // remove the employee
   await Employee.findByIdAndRemove(id);
 
   res.json({ message: 'Employee deleted successfully!' });
