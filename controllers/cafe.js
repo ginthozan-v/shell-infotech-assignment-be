@@ -1,4 +1,5 @@
 import Cafe from "../models/cafe.js";
+import Employee from "../models/employee.js";
 import mongoose from "mongoose";
 
 export const getCafes = async (req, res) => {
@@ -48,6 +49,13 @@ export const deleteCafe = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send("No post with that id");
 
+  const cafes = await Cafe.findById(id);
+  const employees = [];
+  cafes.employees.forEach(employee => (
+    employees.push(employee.employee_id)
+  ));
+
+  await Employee.deleteMany({ _id: { $in: employees } })
   await Cafe.findByIdAndRemove(id);
 
   res.json({ message: "Cafe deleted successfully!" });
@@ -61,11 +69,8 @@ export const addEmployee = async (req, res) => {
     return res.status(404).send("No post with that id");
 
   const cafes = await Cafe.find();
-
-  const index = cafes.some((p) =>
-    p.employees.some((e) => e.id === employee.employee_id)
-  );
-  if (index) {
+  const employees = cafes.some((p) => p.employees.some((e) => e.employee_id === employee.employee_id));
+  if (employees) {
     return res.status(409).send("User already exist in another cafe");
   } else {
     const cafe = await Cafe.findById(id);
