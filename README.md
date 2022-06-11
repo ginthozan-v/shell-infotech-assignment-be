@@ -1,6 +1,6 @@
 # Cafe Employee Manager - Backend
 
-This project was buil with <br />  
+This project was build with <br />  
 **Node JS (v14.18.1) | Express | MongoDB**
 
 ## To run the project
