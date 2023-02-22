@@ -11,10 +11,7 @@ This project was build with <br />
 
 ## Preview
 
-<!-- Preview live on [Netlify](https://calculate-everything.netlify.app/) <br />
-Backend live on [Heroku](https://cafe-employee.herokuapp.com/) -->
-
-Frontend Repository: [https://github.com/ginthozan-v/cafe-employee-frontend.git]
+Frontend Repository: [https://github.com/ginthozan-v/persolkelly-assignment-fe.git]
 
 ## My assumption from the requirement
 
