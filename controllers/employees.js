@@ -1,6 +1,6 @@
-import Employee from "../models/employee.js";
-import Cafe from "../models/cafe.js";
-import mongoose from "mongoose";
+import Employee from '../models/employee.js';
+import Cafe from '../models/cafe.js';
+import mongoose from 'mongoose';
 
 // calculate working days
 // The day user assigned to the cafe is the Starting day.
@@ -37,7 +37,9 @@ export const getEmployees = async (req, res) => {
         gender: employee.gender,
         days: calculateWorkingDays(cafes, employee),
         cafe: cafes.find((ca) =>
-          ca.employees?.some((e) => e.employee_id === employee.id.toString())
+          ca.employees?.some(
+            (e) => e._id.toString() === employee._id.toString()
+          )
         )?.name,
       })
     );
@@ -74,7 +76,7 @@ export const updateEmployee = async (req, res) => {
   const employee = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).send("No employee with that id");
+    return res.status(404).send('No employee with that id');
 
   const updatedEmployee = await Employee.findByIdAndUpdate(
     _id,
@@ -89,22 +91,23 @@ export const deleteEmployee = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send("No employee with that id");
+    return res.status(404).send('No employee with that id');
 
   // remove the employee from cafe if exist
   const cafe = await Cafe.find();
   const cafeEmployee = cafe.find((c) =>
-    c.employees.find((e) => e.name === "Ginthozan")
+    c.employees.find((e) => e._id.toString() === id)
   );
 
-  await Cafe.findOneAndUpdate(
-    { _id: cafeEmployee._id },
-    { $pull: { employees: { _id: id } } },
-    { new: true }
-  );
+  if (cafeEmployee)
+    await Cafe.findOneAndUpdate(
+      { _id: cafeEmployee._id.toString() },
+      { $pull: { employees: { _id: id } } },
+      { new: true }
+    );
 
   // remove the employee
   await Employee.findByIdAndRemove(id);
 
-  res.json({ message: "Employee deleted successfully!" });
+  res.json({ message: 'Employee deleted successfully!' });
 };
