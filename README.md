@@ -1,21 +1,13 @@
-# Persolkelly Assignment - Backend
+# Shell Infotech - Backend
 
-This project was build with <br />  
-**Node JS (v14.18.1) | Express | MongoDB**
+This project was build with <br />
+**NodeJS | Express | Javascript**
 
 ## To run the project
 
-• Clone the project and In the project directory, you can run: <br />
+• Clone the project <br />
+• Then inside the project directory, you can run: <br />
 • `npm install` <br />
-• `npm start`
-
-## Preview
-
-Frontend Repository: [https://github.com/ginthozan-v/persolkelly-assignment-fe.git]
-
-## My assumption from the requirement
-
-• **No same employee can work in 2 cafes:** If a userId is assigned to cafe that user can't be assigned to another cafe. <br/>
-• **Calculate number of days worked:** The day a user is assigned to a cafe is the Start date.
+• `npm run start`
 
 ###### The DB is up on Mongodb cloud.
